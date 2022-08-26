@@ -2,9 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\RetrieveList as JobsRetrieveList;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class RetrieveList extends Command
 {
@@ -34,6 +37,11 @@ class RetrieveList extends Command
             ->get('https://boardgamegeek.com/xmlapi/geeklist/301669', [
                 'comments' => 1,
             ]);
+
+        if (Str::of($response->body())->contains('Your request for this geeklist has been accepted and will be processed.')) {
+            self::dispatch()->delay(Carbon::now()->addSeconds(30));
+            return;
+        }
 
         Storage::put('list.xml', $response->body());
 
