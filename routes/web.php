@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [AuctionListController::class, 'index']);
+Route::get('/', [AuctionListController::class, 'index'])->middleware('analytics');

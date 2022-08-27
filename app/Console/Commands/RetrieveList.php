@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\RetrieveList as JobsRetrieveList;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
@@ -39,8 +38,7 @@ class RetrieveList extends Command
             ]);
 
         if (Str::of($response->body())->contains('Your request for this geeklist has been accepted and will be processed.')) {
-            self::dispatch()->delay(Carbon::now()->addSeconds(30));
-            return;
+            return $this->handle(Carbon::now()->addSeconds(30));
         }
 
         Storage::put('list.xml', $response->body());
