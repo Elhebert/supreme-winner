@@ -9,7 +9,9 @@ class AuctionList extends Component
 {
     public Collection $list;
 
-    public string $searchQuery = '';
+    protected $queryString = ['searchQuery'];
+
+    public $searchQuery;
 
     public function render()
     {
@@ -18,7 +20,7 @@ class AuctionList extends Component
 
     public function getFilteredListProperty()
     {
-        if ($this->searchQuery === '') {
+        if (!$this->searchQuery) {
             return  $this->list;
         }
 

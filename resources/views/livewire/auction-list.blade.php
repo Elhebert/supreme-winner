@@ -13,6 +13,7 @@
             <td class="p-4">Title</td>
             <td class="p-4">Condition</td>
             <td class="p-4"></td>
+            <td class="p-4">Language</td>
             <td class="p-4">Version</td>
             <td class="p-4">Starting bid</td>
             <td class="p-4">Soft reserve</td>
@@ -31,6 +32,7 @@
                     <td class="p-4">
                         {{ $listing['conditionComment'] }}
                     </td>
+                    <td class="p-4">{{ $listing['language'] }}</td>
                     <td class="p-4">{{ $listing['version'] }}</td>
                     <td class="p-4">{{ $listing['startingBid'] }}</td>
                     <td class="p-4">{{ $listing['softReserve'] }}</td>

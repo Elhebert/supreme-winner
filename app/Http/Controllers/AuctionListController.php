@@ -51,6 +51,23 @@ class AuctionListController extends Controller
                 $condition = str($condition)->trim(' ')->value();
 
                 $version = $body->match("/version:?\s?\n?(.+)/i")->title()->value();
+                $language = $body->match("/languages?:?\s?\n?(.+)/i")->title();
+
+                if ($language->is('English')) {
+                    $language = $language->prepend('🇬🇧 ');
+                } elseif ($language->is('German')) {
+                    $language = $language->prepend('🇩🇪 ');
+                } elseif ($language->is('French')) {
+                    $language = $language->prepend('🇫🇷 ');
+                } elseif ($language->is('Dutch')) {
+                    $language = $language->prepend('🇳🇱 ');
+                } elseif ($language->is('Italian')) {
+                    $language = $language->prepend('🇮🇹 ');
+                } elseif ($language->is('Spanish')) {
+                    $language = $language->prepend('🇪🇸 ');
+                }
+
+
                 $expansions = $body->match("/expansion.*(?:\[thing=\d+\])(.+)(?:\[\/thing\])/i")->title()->value();
                 $softReserve = $body->match("/soft reserve.*€?(\d+)/i")->value();
                 $bin = $body->match("/bin.*€(\d+)/i")->value();
@@ -68,6 +85,7 @@ class AuctionListController extends Controller
                     'condition' => $condition,
                     'conditionComment' => $conditionComment ?? null,
                     'version' => $version,
+                    'language' => $language,
                     'startingBid' => $startingBid ? $currencyFormatter->formatCurrency($startingBid, 'EUR') : '-',
                     'bin' => $bin ? $currencyFormatter->formatCurrency($bin, 'EUR') : '-',
                     'deleted' => $deleted,
