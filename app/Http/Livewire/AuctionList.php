@@ -2,12 +2,11 @@
 
 namespace App\Http\Livewire;
 
-use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class AuctionList extends Component
 {
-    public Collection $list;
+    public $list;
 
     protected $queryString = ['searchQuery'];
 
@@ -24,12 +23,12 @@ class AuctionList extends Component
             return $this->list;
         }
 
-        return $this->list->filter(function ($game) {
+        return collect($this->list)->filter(function ($game) {
             return str($game['title'])->lower()->contains(str($this->searchQuery)->lower()->value());
-        });
+        })->all();
     }
 
-    public function mount(Collection $list)
+    public function mount($list)
     {
         $this->list = $list;
     }
