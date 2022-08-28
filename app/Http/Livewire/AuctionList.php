@@ -21,7 +21,7 @@ class AuctionList extends Component
     public function getFilteredListProperty()
     {
         if (!$this->searchQuery) {
-            return  $this->list;
+            return $this->list;
         }
 
         return $this->list->filter(function ($game) {

@@ -76,7 +76,7 @@ class AuctionListController extends Controller
                 $deleted = $body->lower()->contains(['sold to']) || $body->lower()->startsWith('[-]');
 
                 return [
-                    'id' => $attributes['id'],
+                    'bggId' => $attributes['id'],
                     'index' => $key + 1,
                     'author' => $attributes['username'],
                     'title' => $attributes['objectname'],
