@@ -91,7 +91,7 @@ class AuctionListController extends Controller
                     'deleted' => $deleted,
                     'softReserve' => $softReserve ? $currencyFormatter->formatCurrency($softReserve, 'EUR') : '-',
                 ];
-            })->sort()->all();
+            })->keyBy('index')->sort()->all();
 
         return view('auction-list', ['list' => $formattedGameItem]);
     }
