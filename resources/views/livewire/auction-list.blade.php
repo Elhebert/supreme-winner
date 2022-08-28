@@ -22,7 +22,7 @@
         </thead>
         <tbody>
             @foreach($this->filteredList as $listing)
-                <tr class="border-b border-slate-200 {{ $listing['deleted'] ? 'opacity-50' : '' }}">
+                <tr wire:key="item-{{ $listing['id'] }}" class="border-b border-slate-200 {{ $listing['deleted'] ? 'opacity-50' : '' }}">
                     <td class="p-4"><a href="https://boardgamegeek.com/geeklist/item/{{ $listing['id'] }}#item{{ $listing['id'] }}" class="underline hover:no-underline text-blue-500">{{ $listing['index'] }}</a></td>
                     <td class="p-4">{{ $listing['author'] }}</td>
                     <td class="p-4"><a href="{{ $listing['bggLink'] }}" class="underline hover:no-underline text-blue-500">{{ $listing['title'] }}</a></td>
