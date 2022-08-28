@@ -25,7 +25,7 @@ class AuctionList extends Component
 
         return collect($this->list)->filter(function ($game) {
             return str($game['title'])->lower()->contains(str($this->searchQuery)->lower()->value());
-        })->all();
+        })->sortBy('bggId')->all();
     }
 
     public function mount($list)
