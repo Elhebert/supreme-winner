@@ -12,6 +12,6 @@ class Ads extends Model
     public $guarded = [];
 
     protected $casts = [
-        'attributes' => 'array'
+        'attributes' => 'array',
     ];
 }

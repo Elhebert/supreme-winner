@@ -3,12 +3,12 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
-use Illuminate\Support\Str;
 use NumberFormatter;
 
 class CurrencyFormatter extends Component
 {
     private NumberFormatter $currencyFormatter;
+
     public $price;
 
     /**
@@ -36,7 +36,7 @@ class CurrencyFormatter extends Component
         $amount = '-';
 
         if ($this->price !== '-') {
-            $amount = $this->currencyFormatter->formatCurrency((int)$this->price, 'EUR');
+            $amount = $this->currencyFormatter->formatCurrency((int) $this->price, 'EUR');
         }
 
         return view('components.currency-formatter', compact('amount'));

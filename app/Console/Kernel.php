@@ -4,7 +4,6 @@ namespace App\Console;
 
 use App\Console\Commands\RetrieveList as CommandsRetrieveList;
 use App\Jobs\RetrieveAdList;
-use App\Jobs\RetrieveList;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 

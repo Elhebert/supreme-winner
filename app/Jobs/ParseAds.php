@@ -2,14 +2,11 @@
 
 namespace App\Jobs;
 
-use App\Models\Ads;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Cache;
 
 class ParseAds implements ShouldQueue
 {
@@ -46,7 +43,7 @@ class ParseAds implements ShouldQueue
      */
     public function handle()
     {
-        $formattedGameItem = collect($this->adList)
+        collect($this->adList)
             ->map(function ($item, $key) {
                 $attributes = $item['@attributes'];
                 $body = str($item['body'])
@@ -106,7 +103,7 @@ class ParseAds implements ShouldQueue
                 $bin = $body->match("/bin.*€(\d+)/i")->value();
                 $deleted = $body->lower()->contains(['sold to']) || $body->lower()->startsWith('[-]');
 
-                Ads::create([
+                return [
                     'attributes' => $item['@attributes'],
                     'body' => $item['body'],
                     'bgg_id' => $attributes['id'],
@@ -123,10 +120,8 @@ class ParseAds implements ShouldQueue
                     'bin' => $bin ?: '-',
                     'deleted' => $deleted,
                     'soft_reserve' => $softReserve ?: '-',
-                ]);
-            });
-
-        Cache::flush();
-        // Ads::create($formattedGameItem->all());
+                ];
+            })
+            ->each(fn ($item) => SaveAdInDatabase::dispatch($item));
     }
 }

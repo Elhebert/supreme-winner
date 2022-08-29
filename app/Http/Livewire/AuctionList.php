@@ -5,8 +5,8 @@ namespace App\Http\Livewire;
 use App\Models\Ads;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
-use Livewire\Component;
 use Illuminate\Support\Str;
+use Livewire\Component;
 
 class AuctionList extends Component
 {
@@ -16,13 +16,13 @@ class AuctionList extends Component
 
     public function render()
     {
-        $cacheKey = $this->searchQuery ? 'ads:' . Str::of($this->searchQuery)->title()->value() : 'ads';
+        $cacheKey = $this->searchQuery ? 'ads:'.Str::of($this->searchQuery)->title()->value() : 'ads';
 
         $ads = Cache::remember($cacheKey, Carbon::now()->addMinutes(30), function () {
             return Ads::where(
                 'title',
                 'like',
-                '%' . Str::of($this->searchQuery)->title()->value() . '%'
+                '%'.Str::of($this->searchQuery)->title()->value().'%'
             )->get();
         });
 

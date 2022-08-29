@@ -7,7 +7,6 @@ return [
      *
      * The prefix and middleware for the analytics dashboard.
      */
-
     'prefix' => 'analytics',
 
     'middleware' => [
@@ -19,7 +18,6 @@ return [
      *
      * The routes excluded from page view tracking.
      */
-
     'exclude' => [
         '/analytics',
     ],

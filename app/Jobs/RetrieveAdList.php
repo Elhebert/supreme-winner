@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -42,12 +41,13 @@ class RetrieveAdList implements ShouldQueue
                 'comments' => 1,
             ]);
 
-        if (Str::of($response->body())->contains('Your request for this geeklist has been accepted and will be processed.')) {
+        if (
+            Str::of($response->body())
+                ->contains('Your request for this geeklist has been accepted and will be processed.')
+        ) {
             return $this->handle(Carbon::now()->addSeconds(30));
         }
 
         ParseAds::dispatch(xml_to_array($response->body())['item']);
-
-        return;
     }
 }
