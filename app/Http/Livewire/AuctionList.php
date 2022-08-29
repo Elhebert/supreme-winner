@@ -16,7 +16,9 @@ class AuctionList extends Component
 
     public function render()
     {
-        $ads = Cache::remember('ads', Carbon::now()->addMinutes(30), function () {
+        $cacheKey = $this->searchQuery ? 'ads:' . Str::of($this->searchQuery)->title()->value() : 'ads';
+
+        $ads = Cache::remember($cacheKey, Carbon::now()->addMinutes(30), function () {
             return Ads::where(
                 'title',
                 'like',

@@ -126,7 +126,7 @@ class ParseAds implements ShouldQueue
                 ]);
             });
 
-        Cache::forget('ads');
+        Cache::flush();
         // Ads::create($formattedGameItem->all());
     }
 }
