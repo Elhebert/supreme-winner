@@ -2,14 +2,18 @@
 
 namespace App\Jobs;
 
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Cache;
 
 class ParseAds implements ShouldQueue
 {
+    use Batchable;
     use Dispatchable;
     use InteractsWithQueue;
     use Queueable;
@@ -43,6 +47,8 @@ class ParseAds implements ShouldQueue
      */
     public function handle()
     {
+        $batch = Bus::batch([])->then(fn () => Cache::flush());
+
         collect($this->adList)
             ->map(function ($item, $key) {
                 $attributes = $item['@attributes'];
@@ -122,6 +128,8 @@ class ParseAds implements ShouldQueue
                     'soft_reserve' => $softReserve ?: '-',
                 ];
             })
-            ->each(fn ($item) => SaveAdInDatabase::dispatch($item));
+            ->each(fn ($item) => $batch()->add(SaveAdInDatabase::dispatch($item)));
+
+        $batch()->dispatch();
     }
 }
