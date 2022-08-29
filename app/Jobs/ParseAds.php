@@ -47,9 +47,7 @@ class ParseAds implements ShouldQueue
      */
     public function handle()
     {
-        $batch = Bus::batch([])->then(fn () => Cache::flush());
-
-        collect($this->adList)
+        $createAdJobs = collect($this->adList)
             ->map(function ($item, $key) {
                 $attributes = $item['@attributes'];
                 $body = str($item['body'])
@@ -128,8 +126,10 @@ class ParseAds implements ShouldQueue
                     'soft_reserve' => $softReserve ?: '-',
                 ];
             })
-            ->each(fn ($item) => $batch()->add(SaveAdInDatabase::dispatch($item)));
+            ->map(fn ($item) => new SaveAdInDatabase($item));
 
-        $batch()->dispatch();
+        Bus::batch($createAdJobs->all())
+            ->finally(fn () => Cache::flush())
+            ->dispatch();
     }
 }
