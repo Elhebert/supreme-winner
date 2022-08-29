@@ -28,9 +28,9 @@ return new class () extends Migration {
             $table->text('condition_comment')->nullable();
             $table->string('version');
             $table->string('language');
-            $table->integer('starting_bid');
-            $table->integer('bin');
-            $table->integer('soft_reserve');
+            $table->string('starting_bid');
+            $table->string('bin');
+            $table->string('soft_reserve');
             $table->boolean('deleted');
 
             $table->timestamps();
