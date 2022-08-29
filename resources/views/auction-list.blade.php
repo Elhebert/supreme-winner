@@ -1,3 +1,3 @@
 <x-layouts.app>
-    <livewire:auction-list :list="$list"/>
+    <livewire:auction-list />
 </x-layouts.app>

@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\RetrieveList as CommandsRetrieveList;
+use App\Jobs\RetrieveAdList;
 use App\Jobs\RetrieveList;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -18,7 +19,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command(CommandsRetrieveList::class)->hourly();
+        // $schedule->command(CommandsRetrieveList::class)->hourly();
+        $schedule->job(RetrieveAdList::class)->hourly();
     }
 
     /**

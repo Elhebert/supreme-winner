@@ -21,22 +21,42 @@
             <td class="p-4">Already sold</td>
         </thead>
         <tbody>
-            @foreach($this->filteredList as $listing)
-                <tr wire:key="item-{{ $listing['bggId'] }}" class="border-b border-slate-200 {{ $listing['deleted'] ? 'opacity-50' : '' }}">
-                    <td class="p-4"><a href="https://boardgamegeek.com/geeklist/item/{{ $listing['bggId'] }}#item{{ $listing['bggId'] }}" class="underline hover:no-underline text-blue-500">{{ $listing['index'] }}</a></td>
+            @foreach($ads as $listing)
+                <tr wire:key="item-{{ $listing['bgg_id'] }}" class="border-b border-slate-200 {{ $listing['deleted'] ? 'opacity-50' : '' }}">
+                    <td class="p-4">
+                        <a
+                            href="https://boardgamegeek.com/geeklist/item/{{ $listing['bgg_id'] }}#item{{ $listing['bgg_id'] }}"
+                            class="underline hover:no-underline text-blue-500"
+                        >
+                            {{ $listing['index'] }}
+                        </a>
+                    </td>
                     <td class="p-4">{{ $listing['author'] }}</td>
-                    <td class="p-4"><a href="{{ $listing['bggLink'] }}" class="underline hover:no-underline text-blue-500">{{ $listing['title'] }}</a></td>
+                    <td class="p-4">
+                        <a
+                            href="https://boardgamegeek.com/boardgame/{{ $listing['object_id'] }}/{{ $listing['title'] }}"
+                            class="underline hover:no-underline text-blue-500"
+                        >
+                            {{ $listing['title'] }}
+                        </a>
+                    </td>
                     <td class="p-4">
                         <x-condition-badge :condition="$listing['condition']" />
                     </td>
                     <td class="p-4">
-                        {{ $listing['conditionComment'] }}
+                        {{ $listing['condition_comment'] }}
                     </td>
                     <td class="p-4">{{ $listing['language'] }}</td>
                     <td class="p-4">{{ $listing['version'] }}</td>
-                    <td class="p-4">{{ $listing['startingBid'] }}</td>
-                    <td class="p-4">{{ $listing['softReserve'] }}</td>
-                    <td class="p-4">{{ $listing['bin'] }}</td>
+                    <td class="p-4">
+                        <x-currency-formatter :price="$listing['starting_bid']" />
+                    </td>
+                    <td class="p-4">
+                        <x-currency-formatter :price="$listing['soft_reserve']" />
+                    </td>
+                    <td class="p-4">
+                        <x-currency-formatter :price="$listing['bin']" />
+                    </td>
                     <td class="p-4">@if($listing['deleted']) ✅ @endif</td>
                 </tr>
             @endforeach

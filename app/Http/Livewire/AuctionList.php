@@ -2,34 +2,24 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Ads;
 use Livewire\Component;
+use Illuminate\Support\Str;
 
 class AuctionList extends Component
 {
-    public $list;
-
     protected $queryString = ['searchQuery'];
 
     public $searchQuery;
 
     public function render()
     {
-        return view('livewire.auction-list');
-    }
+        $ads = Ads::where(
+            'title',
+            'like',
+            '%' . Str::of($this->searchQuery)->title()->value() . '%'
+        )->get();
 
-    public function getFilteredListProperty()
-    {
-        if (!$this->searchQuery) {
-            return $this->list;
-        }
-
-        return collect($this->list)->filter(function ($game) {
-            return str($game['title'])->lower()->contains(str($this->searchQuery)->lower()->value());
-        })->sort()->all();
-    }
-
-    public function mount($list)
-    {
-        $this->list = $list;
+        return view('livewire.auction-list', compact('ads'));
     }
 }
