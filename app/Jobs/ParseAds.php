@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
 
 class ParseAds implements ShouldQueue
 {
@@ -125,6 +126,7 @@ class ParseAds implements ShouldQueue
                 ]);
             });
 
+        Cache::forget('ads');
         // Ads::create($formattedGameItem->all());
     }
 }
