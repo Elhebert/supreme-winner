@@ -81,7 +81,7 @@ class ParseAds implements ShouldQueue
 
                 $condition = str($condition)->trim(' ')->value();
 
-                $version = $body->match("/version\(?s?\)?:?\(?\s?\)?\n?(.+)/i")->title()->value();
+                $version = $body->match("/version\(?s?\)?:?\s?\n?(.+)/i")->title()->value();
                 $language = $body->match("/languages?:?\s?\n?(.+)/i")->title();
 
                 if ($language->is('English')) {
