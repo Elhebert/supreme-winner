@@ -99,10 +99,9 @@ class ParseAds implements ShouldQueue
                 }
 
                 $expansions = $body->match("/expansion.*(?:\[thing=\d+\])(.+)(?:\[\/thing\])/i")->title()->value();
-                $softReserve = $body->match("/soft reserve.*€?(\d+)/i")->value();
-                $bin = $body->match("/bin.*€(\d+)/i")->value();
-                $startingBid = $body->match("/starting bid.*€?(\d+)/i")->value();
-                $bin = $body->match("/bin.*€(\d+)/i")->value();
+                $softReserve = $body->match("/soft reserve.*€?(\d+)\s?€?/i")->value();
+                $bin = $body->match("/bin.*€?(\d+)\s?€?/i")->value();
+                $startingBid = $body->match("/starting bid.*€?(\d+)\s?€?/i")->value();
                 $deleted = $body->lower()->contains(['sold to']) || $body->lower()->startsWith('[-]');
 
                 return [
