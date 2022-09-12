@@ -16,15 +16,17 @@ class AuctionList extends Component
 
     public function render()
     {
-        $cacheKey = $this->searchQuery ? 'ads:'.Str::of($this->searchQuery)->title()->value() : 'ads';
-
-        $ads = Cache::remember($cacheKey, Carbon::now()->addMinutes(30), function () {
-            return Ads::where(
+        if ($this->queryString) {
+            $ads = Ads::where(
                 'title',
                 'like',
                 '%'.Str::of($this->searchQuery)->title()->value().'%'
             )->get();
-        });
+        } else {
+            $ads = Cache::remember('ads', Carbon::now()->addMinutes(60), function () {
+                return Ads::all();
+            });
+        }
 
         return view('livewire.auction-list', compact('ads'));
     }

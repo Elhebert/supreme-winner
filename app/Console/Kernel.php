@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->job(RetrieveAdList::class)->hourly();
-        $schedule->command('horizon:snapshot')->everyFiveMinutes();
+        $schedule->command('horizon:snapshot')->hourly();
     }
 
     /**
