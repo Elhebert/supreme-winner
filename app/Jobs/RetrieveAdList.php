@@ -45,7 +45,8 @@ class RetrieveAdList implements ShouldQueue
             Str::of($response->body())
                 ->contains('Your request for this geeklist has been accepted and will be processed.')
         ) {
-            return $this->handle(Carbon::now()->addSeconds(30));
+            self::dispatch(Carbon::now()->addSeconds(30));
+            return;
         }
 
         ParseAds::dispatch(xml_to_array($response->body())['item']);
