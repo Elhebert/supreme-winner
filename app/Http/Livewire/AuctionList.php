@@ -21,10 +21,44 @@ class AuctionList extends Component
                 'title',
                 'like',
                 '%'.Str::of($this->searchQuery)->title()->value().'%'
+            )->select(
+                'attributes',
+                'body',
+                'bgg_id',
+                'index',
+                'author',
+                'title',
+                'object_id',
+                'expansions',
+                'condition',
+                'condition_comment',
+                'version',
+                'language',
+                'starting_bid',
+                'bin',
+                'deleted',
+                'soft_reserve',
             )->get();
         } else {
             $ads = Cache::remember('ads', Carbon::now()->addMinutes(60), function () {
-                return Ads::all();
+                return Ads::select(
+                    'attributes',
+                    'body',
+                    'bgg_id',
+                    'index',
+                    'author',
+                    'title',
+                    'object_id',
+                    'expansions',
+                    'condition',
+                    'condition_comment',
+                    'version',
+                    'language',
+                    'starting_bid',
+                    'bin',
+                    'deleted',
+                    'soft_reserve',
+                )->all();
             });
         }
 
